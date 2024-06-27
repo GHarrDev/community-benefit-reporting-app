@@ -1,21 +1,24 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
+import{ useNavigate } from "react-router-dom";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import StartOutlinedIcon from '@mui/icons-material/StartOutlined';
+import StackedLineChartOutlinedIcon from '@mui/icons-material/StackedLineChartOutlined';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SportsScoreIcon from '@mui/icons-material/SportsScore';
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
+//import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
-import ProgressCircle from "../../components/ProgressCircle";
+//import ProgressCircle from "../../components/ProgressCircle";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
 
   return (
     <Box m="20px">
@@ -24,6 +27,19 @@ const Dashboard = () => {
         <Header title="ADMIN HOME" subtitle="Welcome to your dashboard" />
 
         <Box>
+          <Button
+            sx={{
+              backgroundColor: "#FAA000",
+              color: colors.grey[900],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+              marginRight: "15px"
+            }}
+          >
+            <StartOutlinedIcon sx={{ mr: "10px" }} />
+            BEGIN NEW REPORT
+          </Button>
           <Button
             sx={{
               backgroundColor: colors.blueAccent[700],
@@ -129,6 +145,7 @@ const Dashboard = () => {
           gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
+          onClick = { () => navigate('/line')}
         >
           <Box
             mt="25px"
@@ -143,7 +160,7 @@ const Dashboard = () => {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Cost / People Served
+                Cost / People Impacted
               </Typography>
               <Typography
                 variant="h3"
@@ -155,7 +172,7 @@ const Dashboard = () => {
             </Box>
             <Box>
               <IconButton>
-                <DownloadOutlinedIcon
+                <StackedLineChartOutlinedIcon
                   sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
                 />
               </IconButton>
@@ -169,55 +186,67 @@ const Dashboard = () => {
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
-          overflow="auto"
+          //overflow="auto"
+          p="30px"
+          onClick = { () => navigate('/bar')}
         >
+          <Typography
+            variant="h5"
+            fontWeight="600"
+            sx={{ padding: "30px 30px 0 30px" }}
+          >
+            Cost By Category
+          </Typography>
+          <Box height="250px" mt="-20px">
+            <BarChart isDashboard={true} />
+          </Box>
+        </Box>
+        {/* <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          borderBottom={`4px solid ${colors.primary[500]}`}
+          colors={colors.grey[100]}
+          p="15px"
+        >
+          <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+            Recent Transactions
+          </Typography>
+        </Box>
+        {mockTransactions.map((transaction, i) => (
           <Box
+            key={`${transaction.txId}-${i}`}
             display="flex"
             justifyContent="space-between"
             alignItems="center"
             borderBottom={`4px solid ${colors.primary[500]}`}
-            colors={colors.grey[100]}
             p="15px"
           >
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Recent Transactions
-            </Typography>
-          </Box>
-          {mockTransactions.map((transaction, i) => (
-            <Box
-              key={`${transaction.txId}-${i}`}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              borderBottom={`4px solid ${colors.primary[500]}`}
-              p="15px"
-            >
-              <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  variant="h5"
-                  fontWeight="600"
-                >
-                  {transaction.txId}
-                </Typography>
-                <Typography color={colors.grey[100]}>
-                  {transaction.user}
-                </Typography>
-              </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
-              <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
+            <Box>
+              <Typography
+                color={colors.greenAccent[500]}
+                variant="h5"
+                fontWeight="600"
               >
-                ${transaction.cost}
-              </Box>
+                {transaction.txId}
+              </Typography>
+              <Typography color={colors.grey[100]}>
+                {transaction.user}
+              </Typography>               
             </Box>
-          ))}
-        </Box>
+            <Box color={colors.grey[100]}>{transaction.date}</Box>
+            <Box
+              backgroundColor={colors.greenAccent[500]}
+              p="5px 10px"
+              borderRadius="4px"
+            >
+              ${transaction.cost}
+            </Box>
+          </Box>
+        ))} */}
 
         {/* ROW 3 */}
-        <Box
+        {/* <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -275,7 +304,7 @@ const Dashboard = () => {
           <Box height="200px">
             <GeographyChart isDashboard={true} />
           </Box>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

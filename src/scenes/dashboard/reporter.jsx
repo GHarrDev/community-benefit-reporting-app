@@ -21,7 +21,7 @@ const ReporterDash = () => {
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="ADMIN HOME" subtitle="Welcome to your dashboard" />
+        <Header title="REPORTER HOME" subtitle="Welcome to your dashboard" />
 
         <Box>
           <Button
