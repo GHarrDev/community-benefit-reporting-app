@@ -20,21 +20,21 @@ const Login = () => {
   const navigate = useNavigate();
   const { toggleColorMode } = useContext(ColorModeContext);
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [helperText, setHelperText] = useState('');
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    setIsButtonDisabled(username.trim() === '' || password.trim() === '');
-  }, [username, password]);
+    setIsButtonDisabled(email.trim() === '' || password.trim() === '');
+  }, [email, password]);
 
   const handleLogin = () => {
     const users = [
       {
-        username: 'admin',
-        password: 'password',
+        email: 'admin@email.com',
+        password: 'Admin',
         fname: 'Austin',
         lname: 'Strassle',
         title: 'Community Benefits Manager',
@@ -43,18 +43,28 @@ const Login = () => {
         dept: 11,
         event: null
       },{
-        username: 'reporter',
-        password: 'password',
+        email: 'moderator@email.com',
+        password: 'Moderator',
+        fname: 'Gregory',
+        lname: 'Harris',
+        title: 'Director of Public Relations',
+        role: 'moderator',
+        photo: '/assets/moderator.png',
+        dept: 32,
+        event: ["Immunization Booster", "Flu Shot Clinic", "Blood Drive"]
+      },{
+        email: 'reporter@email.com',
+        password: 'Reporter',
         fname: 'Kayla',
-        lname: 'Harrier',
+        lname: 'McKenzie',
         title: 'Pediatric Program Coordinator',
         role: 'reporter',
         photo: '/assets/reporter.png',
         dept: 32,
         event: ["Immunization Booster", "Flu Shot Clinic", "Blood Drive"]
       },{
-        username: 'viewer',
-        password: 'password',
+        email: 'viewer@email.com',
+        password: 'Viewer',
         fname: 'Mark',
         lname: 'Zuckerberg',
         title: 'Volunteer',
@@ -66,11 +76,11 @@ const Login = () => {
     ];
 
   const user = users.find(
-    (u) => u.username === username && u.password === password
+    (u) => u.email === email && u.password === password
   );
 
 
-    if (username === user.username && password === user.password) {
+    if (email === user.email && password === user.password) {
       setError(false);
       setHelperText('Login Successfully');
       console.log('Login Successfully');
@@ -78,9 +88,9 @@ const Login = () => {
       navigate('/dashboard');
     } else {
       setError(true);
-      setHelperText('Incorrect username or password');
-      console.log('Incorrect username or password');
-      setUsername('');
+      setHelperText('Incorrect email or password');
+      console.log('Incorrect email or password');
+      setEmail('');
       setPassword('');
     }
   };
@@ -125,12 +135,12 @@ const Login = () => {
           <TextField
             error={error}
             fullWidth
-            id="username"
+            id="email"
             type="email"
-            label="Username"
-            placeholder="Username"
+            label="Email"
+            placeholder="Email"
             margin="normal"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             onKeyDown={handleKeyPress}
             helperText={error ? helperText : ''}
             sx={{
