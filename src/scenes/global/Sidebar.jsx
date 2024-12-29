@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { Sidebar, Menu, MenuItem, SubMenu, useProSidebar } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
@@ -29,45 +29,49 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       }}
       onClick={() => setSelected(title)}
       icon={icon}
+      component={<Link to={to} />}
     >
       <Typography>{title}</Typography>
-      <Link to={to} />
     </MenuItem>
   );
 };
 
-const Sidebar = () => {
+const MySidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { user } = useAuth();
   const [selected, setSelected] = useState("Dashboard");
+  const { collapseSidebar } = useProSidebar();
 
   return (
     <Box
       sx={{
-        "& .pro-sidebar-inner": {
+        "& .ps-sidebar-container": {
           background: `${colors.primary[400]} !important`,
         },
-        "& .pro-icon-wrapper": {
+        "& .ps-icon-wrapper": {
           backgroundColor: "transparent !important",
         },
-        "& .pro-inner-item": {
+        "& .ps-menuitem-root": {
           padding: "5px 35px 5px 20px !important",
         },
-        "& .pro-inner-item:hover": {
+        "& .ps-menuitem-root:hover": {
           color: "#868dfb !important",
         },
-        "& .pro-menu-item.active": {
+        "& .ps-menuitem-root.active": {
           color: "#6870fa !important",
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
+      <Sidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={() => {
+              setIsCollapsed(!isCollapsed);
+              collapseSidebar();
+            }}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
@@ -110,9 +114,9 @@ const Sidebar = () => {
                   sx={{ m: "10px 0 0 0" }}
                 >
                   {user ? `${user.fname} ${user.lname}` : "User Name"} {/* Display user's full name if available */}
-                  </Typography>
+                </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                {user ? `${user.title}` : "Title"} {/* Display user's full name if available */}
+                  {user ? `${user.title}` : "Title"} {/* Display user's title if available */}
                 </Typography>
               </Box>
             </Box>
@@ -222,9 +226,9 @@ const Sidebar = () => {
             />
           </Box>
         </Menu>
-      </ProSidebar>
+      </Sidebar>
     </Box>
   );
 };
 
-export default Sidebar;
+export default MySidebar;
